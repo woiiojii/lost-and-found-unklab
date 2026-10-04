@@ -1,0 +1,335 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&family=Caveat:wght@600;700&family=Dancing+Script:wght@700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─── Design Tokens (Purple #6a046a Theme & 8px Radius) ─────────────────────── */
+:root {
+  --color-primary: #6a046a;
+  --color-primary-dark: #520352;
+  --color-primary-light: #f5e6f5;
+  --color-secondary: #420242;
+  --color-bg: #f8fafc;
+  --color-card: #ffffff;
+  --color-border: #e2e8f0;
+  --color-text: #0f172a;
+  --color-text-muted: #64748b;
+  --radius: 8px;
+}
+
+/* ─── Base ─────────────────────────────────────────────────────────────────── */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-weight: 700;
+}
+
+/* ─── Scrollbar ─────────────────────────────────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #6a046a;
+}
+
+/* ─── Bootstrap-like Components & Utilities ─────────────────────────────────── */
+@layer utilities {
+  .gradient-primary {
+    background: linear-gradient(135deg, #6a046a 0%, #4a024a 100%);
+  }
+
+  .gradient-hero {
+    background: linear-gradient(135deg, #fdf8fd 0%, #f7eaf7 50%, #fdf8fd 100%);
+  }
+
+  .gradient-card {
+    background: linear-gradient(145deg, #ffffff 0%, #faf5fa 100%);
+  }
+
+  .text-gradient-primary {
+    background: linear-gradient(135deg, #6a046a 0%, #9e2a9e 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .glass-card {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+  }
+
+  .card-hover {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .card-hover:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px -4px rgba(106, 4, 106, 0.14);
+  }
+
+  /* Bootstrap-style 8px rounded Buttons */
+  .btn-primary {
+    background-color: #6a046a;
+    color: #ffffff;
+    font-weight: 600;
+    padding: 0.625rem 1.25rem;
+    border-radius: 8px;
+    transition: all 0.15s ease-in-out;
+    border: 1px solid transparent;
+  }
+  .btn-primary:hover {
+    background-color: #520352;
+    box-shadow: 0 4px 12px rgba(106, 4, 106, 0.25);
+  }
+  .btn-primary:active {
+    transform: scale(0.98);
+  }
+
+  .btn-outline {
+    background-color: transparent;
+    color: #6a046a;
+    font-weight: 600;
+    padding: 0.625rem 1.25rem;
+    border-radius: 8px;
+    border: 1.5px solid #6a046a;
+    transition: all 0.15s ease-in-out;
+  }
+  .btn-outline:hover {
+    background-color: #fbf4fb;
+    color: #520352;
+  }
+  .btn-outline:active {
+    transform: scale(0.98);
+  }
+
+  /* Form Control / Input Field with Strict Non-Overlapping Padding */
+  .input-field {
+    width: 100%;
+    padding: 0.625rem 0.875rem;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    background-color: #ffffff;
+    color: #1e293b;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  }
+  .input-field::placeholder {
+    color: #94a3b8;
+  }
+  .input-field:focus {
+    outline: none;
+    border-color: #6a046a;
+    box-shadow: 0 0 0 3px rgba(106, 4, 106, 0.15);
+  }
+
+  /* Input group with icon on the left - guaranteed 44px left padding so icon never overlaps text */
+  .input-icon-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+  }
+  .input-icon-wrapper .input-icon {
+    position: absolute;
+    left: 0.875rem;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 1rem;
+    height: 1rem;
+    color: #94a3b8;
+    pointer-events: none;
+    z-index: 10;
+  }
+  .input-icon-wrapper input,
+  .input-icon-wrapper select {
+    padding-left: 2.75rem !important;
+  }
+
+  /* Bootstrap Badge Styles (Clean Pill Badges) */
+  .badge-lost {
+    background-color: #ffe4e6;
+    color: #e11d48;
+    border: 1px solid #fecdd3;
+    padding: 0.25rem 0.625rem;
+    border-radius: 8px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+  }
+
+  .badge-found {
+    background-color: #f5e6f5;
+    color: #6a046a;
+    border: 1px solid #eccdec;
+    padding: 0.25rem 0.625rem;
+    border-radius: 8px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+  }
+
+  .badge-status-open {
+    background-color: #e0f2fe;
+    color: #0284c7;
+    border: 1px solid #bae6fd;
+    padding: 0.25rem 0.625rem;
+    border-radius: 8px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+  }
+
+  .badge-status-review {
+    background-color: #fef3c7;
+    color: #d97706;
+    border: 1px solid #fde68a;
+    padding: 0.25rem 0.625rem;
+    border-radius: 8px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+  }
+
+  .badge-status-returned {
+    background-color: #f5e6f5;
+    color: #6a046a;
+    border: 1px solid #eccdec;
+    padding: 0.25rem 0.625rem;
+    border-radius: 8px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+  }
+
+  .badge-status-closed {
+    background-color: #f1f5f9;
+    color: #64748b;
+    border: 1px solid #e2e8f0;
+    padding: 0.25rem 0.625rem;
+    border-radius: 8px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+  }
+
+  .section-title {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #0f172a;
+  }
+}
+
+/* ─── Timeline ─────────────────────────────────────────────────────────────── */
+.timeline-line {
+  position: absolute;
+  left: 14px;
+  top: 28px;
+  bottom: 0;
+  width: 2px;
+  background: linear-gradient(to bottom, #6a046a, #e2e8f0);
+}
+
+/* ─── Toaster overrides ─────────────────────────────────────────────────────── */
+[data-sonner-toaster] {
+  --normal-bg: #fff;
+  --normal-border: #e2e8f0;
+  --success-bg: #fbf4fb;
+  --success-border: #6a046a;
+  --error-bg: #fff1f2;
+  --error-border: #f43f5e;
+  border-radius: 8px !important;
+}
+
+/* ─── Hero Waves Animation ─────────────────────────────────────────────────── */
+.hero-waves {
+  display: block;
+  width: 100%;
+  height: 48px;
+  position: relative;
+}
+
+@media (min-width: 640px) {
+  .hero-waves {
+    height: 64px;
+  }
+}
+
+.wave1 use {
+  animation: move-forever1 10s linear infinite;
+  animation-delay: -2s;
+}
+.wave2 use {
+  animation: move-forever2 8s linear infinite;
+  animation-delay: -2s;
+}
+.wave3 use {
+  animation: move-forever3 6s linear infinite;
+  animation-delay: -2s;
+}
+
+@keyframes move-forever1 {
+  0% {
+    transform: translate(85px, 0%);
+  }
+  100% {
+    transform: translate(-90px, 0%);
+  }
+}
+@keyframes move-forever2 {
+  0% {
+    transform: translate(-90px, 0%);
+  }
+  100% {
+    transform: translate(85px, 0%);
+  }
+}
+@keyframes move-forever3 {
+  0% {
+    transform: translate(-90px, 0%);
+  }
+  100% {
+    transform: translate(85px, 0%);
+  }
+}

@@ -5,16 +5,16 @@
  */
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import { useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import ReportCard from "@/components/reports/ReportCard";
-import { Search, SlidersHorizontal, X, PlusCircle, Inbox, Package } from "lucide-react";
+import { Search, SlidersHorizontal, X, PlusCircle, Inbox } from "lucide-react";
 import Link from "next/link";
 import type { Id } from "@/convex/_generated/dataModel";
 
-export default function ReportsPage() {
+function ReportsPageContent() {
   const searchParams = useSearchParams();
   const initialQ = searchParams?.get("q") ?? "";
   const [searchQuery, setSearchQuery] = useState(initialQ);
@@ -263,3 +263,12 @@ export default function ReportsPage() {
     </div>
   );
 }
+
+export default function ReportsPage() {
+  return (
+    <Suspense fallback={<div className="p-8 text-center text-slate-500">Memuat laporan...</div>}>
+      <ReportsPageContent />
+    </Suspense>
+  );
+}
+

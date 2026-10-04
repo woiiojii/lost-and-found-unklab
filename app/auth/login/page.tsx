@@ -4,7 +4,7 @@
  */
 "use client";
 
-import { useState } from "react";
+import { useState, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
@@ -20,7 +20,7 @@ import {
   LogIn,
 } from "lucide-react";
 
-export default function LoginPage() {
+function LoginPageContent() {
   const { setToken } = useAuth();
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -198,5 +198,13 @@ export default function LoginPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense fallback={<div className="p-8 text-center text-slate-500">Memuat...</div>}>
+      <LoginPageContent />
+    </Suspense>
   );
 }

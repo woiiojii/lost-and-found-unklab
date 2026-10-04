@@ -7,7 +7,7 @@
 
 import { useState, useEffect, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
-import { useQuery } from "convex/react";
+import { useQuery, useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import ReportCard from "@/components/reports/ReportCard";
 import { Search, SlidersHorizontal, X, PlusCircle, Inbox } from "lucide-react";
@@ -23,6 +23,8 @@ function ReportsPageContent() {
   const [selectedStatus, setSelectedStatus] = useState("");
   const [showFilters, setShowFilters] = useState(false);
 
+  const initCategories = useMutation(api.reports.initCategories);
+
   // Sync if user navigates from header search with a different ?q=
   useEffect(() => {
     const q = searchParams?.get("q") ?? "";
@@ -30,6 +32,14 @@ function ReportsPageContent() {
   }, [searchParams]);
 
   const categories = useQuery(api.reports.listCategories);
+
+  // Auto-seed default categories in Convex database if empty
+  useEffect(() => {
+    if (categories && categories.length === 0) {
+      initCategories().catch(() => {});
+    }
+  }, [categories, initCategories]);
+
 
   const queryStatus = selectedStatus || undefined;
 

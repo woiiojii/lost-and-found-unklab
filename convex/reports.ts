@@ -173,6 +173,17 @@ export const createReport = mutation({
 
     let catId = args.categoryId;
 
+    if (catId) {
+      try {
+        const existingCat = await ctx.db.get(catId);
+        if (!existingCat) {
+          catId = undefined;
+        }
+      } catch {
+        catId = undefined;
+      }
+    }
+
     // Fallback if categoryId is missing or invalid: find or create "Lainnya"
     if (!catId) {
       let defaultCat = await ctx.db
@@ -186,6 +197,7 @@ export const createReport = mutation({
         catId = defaultCat._id;
       }
     }
+
 
     const reportId = await ctx.db.insert("itemReports", {
       userId: args.userId,
@@ -416,9 +428,18 @@ export const getMyReports = query({
 export const listCategories = query({
   args: {},
   handler: async (ctx) => {
-    return await ctx.db.query("categories").collect();
+    const cats = await ctx.db.query("categories").collect();
+    if (cats.length > 0) {
+      return cats;
+    }
+    // Fallback to default categories if database is not yet seeded
+    return DEFAULT_CATEGORIES.map((name, index) => ({
+      _id: `default_cat_${index}` as any,
+      name,
+    }));
   },
 });
+
 
 // ─── Initialize Default Categories (Auto-seed) ────────────────────────────────
 export const initCategories = mutation({
